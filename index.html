@@ -57,96 +57,29 @@
       </div>
     </div>
     <div class="heading">
-        <h1>Active fault in india</h1>
+      Geological and Geophysical Database
     </div>
-    <div class="sub-heading">
-        <div class="subheading-text">
-        <h1>Active fault mapping: An initiative towards seismic hazard assessment in India</h1>
-        <h3>Abstract</h3>
-        <hr>
-        <p>Identification and characterization of active faults and deciphering their seismic 
-            potential are of vital importance in seismic hazard assessment of any region. 
-            Seismic vulnerability of India is well known as more than 60 % of its area lies 
-            in high hazard zones due to the presence of major active faults in its plate 
-            boundaries and continental interiors, which produced large earthquakes in the 
-            past and have potential to generate major earthquakes in future. The safety of 
-            critical establishments, like Power plants, Refinaries and other lifeline 
-            structures is a major concern in these areas and calls for a better 
-            characterization of these faults to help mitigate the impact of future 
-            earthquakes. The paper provides a brief overview of the work carried out in 
-            India on active fault research, its limitations and immediate priorities.</p>
-    </div>
-    <div class="fault-mapping">
-        <div class="fault-img">
-            <img src="images/Dasgupta2000.jpg" >
-
-        </div>
-        <div class="image-info">
-            <p><b>Active Fault Mapping:</b> An Initiative towards Seismic Hazard Assessment in India</p>
-        </div>
-        
-    </div>
-    </div>
-    <div class="map-section" id="map_section">
-      <div class="map-content">
-        <button class="showAllfaults">Show All Faluts</button>
-        <form>
-          <label for="fault_name" >Fault's Name</label>
-          <input type="text" class="fault_name" />
-        </form>
-         <h3 class="geo_char">Geographic Characteristics</h3>
-         <div class="geo-char-country">
-          <label for="country_name" >Country Name</label>
-          <select id="country_name">
-            <option id="select">Select</option>
-            <option id="Afganistan">Afganistan</option>
-            <option id="China">China </option>
-            <option id="India">India</option>
-            <option id="Iran">Iran</option>
-            <option id="Kyrgyzstan">Kyrgyzstan</option>
-            <option id="Pakistan">Pakistan</option>
-            <option id="Tajikistan">Tajikistan</option>
-          </select>        
-         </div>
-         <div class="geo-char-province">
-          <label for="province_name" >Province</label>
-          <select id="province_name">
-            <option id="select">Select</option>
-            <option id="Alai Valley">Alai Valley</option>
-            <option id="Central Tibet">Central Tibet </option>
-            <option id="Eastern Tibet">Eastern Tibet</option>
-            <option id="Fergana Basin">Fergana Basin</option>
-            <option id="Himalaya">Himalaya</option>
-            <option id="Hindu Kush-Pamir">Hindu Kush-Pamir</option>
-          </select>
-          </div>
-          <h3>Search through state name</h3>
-         <hr>
-          <div class="searchstate_level">
-            <label for="state_name" >State Name</label>
-            <select id="state_name">
-              <option id="select">Select</option>
-              <option id="uttarakhand">Uttarakhand</option>
-              <option id="Himachal Pradesh">Himachal Pradesh</option>
-              <option id="Uttar Pradesh">Uttar Pradesh</option>
-              <option id="Jammu kashmir">Jammu kashmir</option>
-              <option id="Punjab">Punjab</option>
-            </select>            
-          </div>
-          <button id="search">Search</button>
-
+    <div class="menuBar_wrapper">
+      <div class="menuBar">
+        <ul>
+          <li><a href="">Show Map</a></li>
+          <li><a href="faults_info.html">Search Faults</a></li>
+          <li><a href="">Search Earthquakes location</a></li>
+          <li><a href="">FeedBack</a></li>
+          <li><a href="">About</a></li>
+        </ul>
       </div>
-      <div id="map" class="map">
-
-      </div>
+    </div>
+    <div id="map" class="map">
+  
     </div>
     <div id="latlong">
       Lat : <p id="lat">NaN</p>,
       Long : <p id="long">NaN</p>
     </div>
-
     <div id="popup" title="Property"></div>
-    <div class="found_faults"><p class="fault_num">0</p>fault found</dltiv>
-    <script src="js/script.js"></script>
+    <div class="found_faults"><p class="fault_num">0</p>fault found</div>
+    <script src="js/index.js"></script>
+
 </body>
 </html>
