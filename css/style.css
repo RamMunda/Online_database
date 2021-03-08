@@ -206,8 +206,11 @@ body {
 } */
 .map {
   width: 80%;
-  height: 400px;
+  height: 70vh;
   margin: 20px auto 15px auto;
+}
+canvas {
+  height: 70vh;
 }
 .searchstate_level {
   display: flex;
