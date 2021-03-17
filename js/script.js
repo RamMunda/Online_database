@@ -19,10 +19,10 @@ var himProv = [5,52,53,220,226,244,934,185,201,202,215,225,228,231,232,246,313,6
 var no_ofFaults = 0;
 var allData = [];
 document.addEventListener('click',function(){
-  $.get('xfaults.json',function (data,stauts) {
+  $.get('https://geodata-server.herokuapp.com/api/fault_data',function (data,stauts) {
       if(allData.length==0){
-        allData.push(data);
-        console.log(allData);
+        allData.push(JSON.parse(data));
+
       }
 
   })
@@ -121,16 +121,20 @@ input.addEventListener("keypress", function(event) {
     faultDesc.classList.add('importNofoundClass');
   }
   faultNum.textContent = no_ofFaults;
-    setTimeout(()=>{
-    console.log("time over");
-    $(document).ready(function() {
+  // function scrollWin() {
+  //   window.scrollTo(0, 100);
+  // }
+  // scrollWin();
+    // setTimeout(()=>{
+    // console.log("time over");
+    // $(document).ready(function() {
  
-     $('#map_section').animate({
-        scrollTop: -(document.getElementById('map_section').offsetHeight),                       
-        }, 1000);        
-    });
+    //  $('#map_section').animate({
+    //     scrollTop: -(document.getElementById('map_section').offsetHeight),                       
+    //     }, 1000);        
+    // });
       
-    },2000);
+    // },2000);
 
 });
 
