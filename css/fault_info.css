@@ -302,9 +302,10 @@ body {
   }
   .sub-heading {
     display: flex;
+    flex-direction: column;
     box-sizing: border-box;
     margin-left: 30px;
-    width: calc(100% - 130px);
+    width: calc(100% - 30px);
     margin-top: 30px;
   }
   .subheading-text {
@@ -337,11 +338,14 @@ body {
   #latlong {
     text-align: center;
     font-size: 12px;
-    transform: translate(69px, -83px);
+    transform: translate(0px, -0px);
   }
   .fault-mapping {
-    width: 30%;
-    margin: 7px 0px 20px 18px;
+    width: 80%;
+    margin: 10px auto;
+  }
+  .fault-img {
+    width: 100%;
   }
   .geo-char-country,
   .geo-char-province {
