@@ -11,48 +11,95 @@ $(document).ready(function(){
       }
       console.log(earthquake_data[0].data);
       var j,l=earthquake_data[0].data.length;
-        for(j=0;j<l-1;j++){
+        for(j=0;j<2000-1;j++){
             
              point = new ol.geom.Point([earthquake_data[0].data[j].Lon,earthquake_data[0].data[j].Lat]);
 
              GenralFeature.push(new ol.Feature(point))
         }
+        console.log(ol);
         console.log(GenralFeature);
-  ol.proj.useGeographic();
-  var place = [78, 27];
-  var placeB = [90, 27];
- 
-  var point = new ol.geom.Point(place);
-  var pointB = new ol.geom.Point(placeB);
-  var map = new ol.Map({
-    target: 'map',
-    view: new ol.View({
-      center: place,
-      zoom: 2,
-    }),
-    layers: [
-      new ol.layer.Tile({
-        source: new ol.source.OSM(),
-      }),
-      new ol.layer.Vector({
-        source: new ol.source.Vector({
-          features: GenralFeature,
-        }),
-        style: new ol.style.Style({
-          image: new ol.style.Circle({
-            radius: 4,
-            fill: new ol.style.Fill({color: 'red'}),
+        ol.proj.useGeographic();
+        var place = [78, 27];      
+        var point = new ol.geom.Point(place);
+        var map = new ol.Map({
+          target: 'map',
+          view: new ol.View({
+            center: place,
+            zoom: 5,
           }),
-        }),
-      }) ],
-  });
+          layers: [
+            new ol.layer.Tile({
+              source: new ol.source.OSM(),
+            }),
+            new ol.layer.Vector({
+              source: new ol.source.Vector({
+                features: GenralFeature,
+              }),
+              style: new ol.style.Style({
+                image: new ol.style.Circle({
+                  radius: 5,
+                  fill: new ol.style.Fill({color: 'rgba(154, 18, 179, 1)'}),
+                  stroke: new ol.style.Stroke({color: 'rgba(0,0,0,1)'})
+                }),
+              }),
+            }) ],
+        });
 
+        var element = document.getElementById('popup');
 
-        
+        var popup = new ol.Overlay({
+          element: element,
+          positioning: 'bottom-center',
+          stopEvent: false,
+          offset: [0, -10],
+        });
+        map.addOverlay(popup);
 
-  })    
-  }
-});
+        function formatCoordinate(coordinate) {
+          console.log(coordinate);
+          return ("\n    <table>\n      <tbody>\n        <tr><th>lon</th><td>" + ( Number(coordinate[0]).toFixed(2)) + "</td></tr>\n        <tr><th>lat</th><td>" + (Number(coordinate[1]).toFixed(2)) + "</td></tr>\n      </tbody>\n    </table>");
+        }
+
+        // var info = document.getElementById('info');
+        // map.on('moveend', function () {
+        //   var view = map.getView();
+        //   var center = view.getCenter();
+        //   info.innerHTML = formatCoordinate(center);
+        // });
+
+        map.on('click', function (event) {
+          console.log("event",event);
+          var f = map.getFeaturesAtPixel(event.pixel);
+          console.log("f",f);
+          var feature = map.getFeaturesAtPixel(event.pixel)[0];
+          console.log(feature);
+          if (feature) {
+            var coordinate = feature.getGeometry().getCoordinates();
+            popup.setPosition(coordinate);
+            $(element).popover({
+              container: element.parentElement,
+              html: true,
+              sanitize: false,
+              content: formatCoordinate(coordinate),
+              placement: 'top',
+            });
+            $(element).popover('show');
+          } else {
+            $(element).popover('dispose');
+          }
+        });
+
+        map.on('pointermove', function (event) {
+          if (map.hasFeatureAtPixel(event.pixel)) {
+            map.getViewport().style.cursor = 'pointer';
+          } else {
+            map.getViewport().style.cursor = 'inherit';
+          }
+        });
+          })    
+          }
+        });
 
 
 // var map = new ol.Map({
