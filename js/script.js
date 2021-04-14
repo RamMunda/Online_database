@@ -353,18 +353,18 @@ map.on('click', function(evt){
     }
     var element = popup.getElement();
     var coordinate = evt.coordinate;
-  var hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(coordinate));  
-  $(element).popover('dispose');
-  popup.setPosition(coordinate);
-  $(element).popover({
-  container: element,
-  placement: 'top',
-  animation: false,
-  html: true,
-  content:'<p id="fault_id">'+'ID : '+feature.values_.prop.Id +'</p>'+'<p id="fault_name">'+'Name : '+feature.values_.prop.Name+'</p>'+'<p id="falut_type">'+'Type : '+feature.values_.prop.Type + '</p>'
-      
-  });
-  $(element).popover('show');
+    var hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(coordinate));  
+    $(element).popover('dispose');
+    popup.setPosition(coordinate);
+    $(element).popover({
+    container: element,
+    placement: 'top',
+    animation: false,
+    html: true,
+    content:'<p id="fault_id">'+'ID : '+feature.values_.prop.Id +'</p>'+'<p id="fault_name">'+'Name : '+feature.values_.prop.Name+'</p>'+'<p id="falut_type">'+'Type : '+feature.values_.prop.Type + '</p>'
+        
+    });
+    $(element).popover('show');
 });
 
 

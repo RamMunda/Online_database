@@ -1,5 +1,6 @@
 var earthquake_data = []
 var GenralFeature = [];
+var customGenralFeature = [];
 var Lat, Lon;
 var point;
 $(document).ready(function(){
@@ -7,18 +8,16 @@ $(document).ready(function(){
     $.get(' https://geodata-server.herokuapp.com/api/isc-data',function (data,stauts) {
       if(earthquake_data.length==0){
         earthquake_data.push(JSON.parse(data));
-        console.log(earthquake_data);
       }
-      console.log(earthquake_data[0].data);
       var j,l=earthquake_data[0].data.length;
         for(j=0;j<2000-1;j++){
             
              point = new ol.geom.Point([earthquake_data[0].data[j].Lon,earthquake_data[0].data[j].Lat]);
-
+             if(j>2000-1){
+               customGenralFeature.push(new ol.Feature(point));
+             }
              GenralFeature.push(new ol.Feature(point))
         }
-        console.log(ol);
-        console.log(GenralFeature);
         ol.proj.useGeographic();
         var place = [78, 27];      
         var point = new ol.geom.Point(place);
@@ -45,6 +44,41 @@ $(document).ready(function(){
               }),
             }) ],
         });
+        console.log("ol",ol);
+        // var placeA = [78, 27];      
+        // var pointA =  new ol.geom.Point(placeA);
+
+        //    var layerB = new ol.layer.Vector({
+        //     source:  new ol.source.Vector({
+        //       features: [ new ol.Feature(pointA)],
+        //     }),
+        //     style:  new ol.style.Style({
+        //       image:  new ol.style.Circle({
+        //         radius: 5,
+        //         fill:  ol.style.Fill({color: 'red'}),
+        //         stroke:  ol.style.Stroke({color: 'rgba(0,0,0,1)'})
+        //       }),
+        //     }),
+        //   }) 
+        //   map.addLayer(layerB);
+         new ol.Map({
+           layers : [
+          new ol.layer.Tile({
+            source: new ol.source.OSM(),
+          }),
+          new ol.layer.Vector({
+            source: new ol.source.Vector({
+              features: customGenralFeature,
+            }),
+            style: new ol.style.Style({
+              image: new ol.style.Circle({
+                radius: 5,
+                fill: new ol.style.Fill({color: 'red'}),
+                stroke: new ol.style.Stroke({color: 'rgba(0,0,0,1)'})
+              }),
+            }),
+          }) ]
+    })
 
         var element = document.getElementById('popup');
 
@@ -58,7 +92,14 @@ $(document).ready(function(){
 
         function formatCoordinate(coordinate) {
           console.log(coordinate);
-          return ("\n    <table>\n      <tbody>\n        <tr><th>lon</th><td>" + ( Number(coordinate[0]).toFixed(2)) + "</td></tr>\n        <tr><th>lat</th><td>" + (Number(coordinate[1]).toFixed(2)) + "</td></tr>\n      </tbody>\n    </table>");
+          var k;
+          for(k=0;k<l-1;k++){
+            if(earthquake_data[0].data[k].Lon==coordinate[0] && earthquake_data[0].data[k].Lat==coordinate[1]){
+              console.log(earthquake_data[0].data[k]);
+              return ("\n  <table>\n   <tr><th>ISC event</th> <th>Agency</th> <th>Original Time</th> <th>Depth</th> <th>Lat</th> <th>Long</th> <th>Magn</th> <th>N</th></tr> <tr> <td>"+ earthquake_data[0].data[k].ISC_event+"</td> <td>"+ earthquake_data[0].data[k].Agency +"</td>  <td>"+ earthquake_data[0].data[k].Origin_Time +"</td>  <td>"+ earthquake_data[0].data[k].Depth +"</td>   <td>"+ earthquake_data[0].data[k].Lat +"</td>  <td>"+ earthquake_data[0].data[k].Lon +"</td>   <td>"+ earthquake_data[0].data[k].Magn +"</td>  <td>"+ Number(earthquake_data[0].data[k].N)  +"</td> </tr>   </table>");
+
+            }
+          }
         }
 
         // var info = document.getElementById('info');
@@ -69,13 +110,17 @@ $(document).ready(function(){
         // });
 
         map.on('click', function (event) {
-          console.log("event",event);
-          var f = map.getFeaturesAtPixel(event.pixel);
-          console.log("f",f);
+          // var feature = map.forEachFeatureAtPixel(evt.pixel,
+          //   function(feature, layer) {
+          //     return feature;
+          //   }
+          //   );
+          // console.log(feature);
           var feature = map.getFeaturesAtPixel(event.pixel)[0];
-          console.log(feature);
+          console.log(map.getFeaturesAtPixel(event.pixel));
           if (feature) {
             var coordinate = feature.getGeometry().getCoordinates();
+            console.log("popup",popup);
             popup.setPosition(coordinate);
             $(element).popover({
               container: element.parentElement,
@@ -97,9 +142,9 @@ $(document).ready(function(){
             map.getViewport().style.cursor = 'inherit';
           }
         });
-          })    
-          }
-        });
+    })    
+  }
+});
 
 
 // var map = new ol.Map({

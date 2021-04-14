@@ -73,3 +73,38 @@ select {
   width: 30px;
   outline: none;
 }
+.popover-body {
+  padding: 0.5rem 0.75rem;
+  color: #212529;
+  width: 420px;
+}
+/* .bs-popover-auto[x-placement^="top"], */
+.bs-popover-top {
+  width: 532px;
+  margin-bottom: 0.5rem;
+}
+.popover {
+  max-width: 518px !important;
+}
+.popover-body {
+  width: 100% !important;
+}
+th,
+td {
+  padding: 0px 10px;
+}
+table {
+  display: inline-block;
+  width: 100%;
+  margin-right: 0px;
+}
+tbody {
+  width: 100%;
+  display: inline-block;
+}
+tr:nth-child(odd) {
+  background-color: lightgrey;
+}
+td:nth-child(3) {
+  width: 100px;
+}
