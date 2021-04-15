@@ -144,7 +144,7 @@ $(document).ready(function(){
      console.log(typeof(earthquake_data[0].data[200].Depth));
 
      for(j=0;j<l-1;j++){
-         if(Number(earthquake_data[0].data[j].Depth)>=Number(minDepth) && Number(earthquake_data[0].data[j].Depth)<=Number(maxDepth)){
+         if(Number(earthquake_data[0].data[j].Depth)>=Number(minDepth) && Number(earthquake_data[0].data[j].Depth)<=Number(maxDepth) && Number(earthquake_data[0].data[j].Magn)>=Number(minMagnitude) && Number(earthquake_data[0].data[j].Magn)<=Number(maxMagnitude)){
            console.log("matched");
             point = new ol.geom.Point([earthquake_data[0].data[j].Lon,earthquake_data[0].data[j].Lat]);
           //  if(j>2000-1){
