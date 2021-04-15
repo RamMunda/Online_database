@@ -30,7 +30,7 @@
     </div>
     <div class="map_data_container">
         <div id="map" class="map">
-            <div id="popup"></div>
+            <!-- <div id="popup"></div> -->
         </div>
         <div id="info"></div>
         <div class="map_query">
@@ -38,24 +38,24 @@
                 <div class="search_query">
                     <div class="queryOn_no">
                         <p>No of Earthquake :</p>
-                        <select>
-                            <option>100</option>
-                            <option>200</option>
-                            <option>300</option>
-                            <option>400</option>
-                            <option>500</option>
-                            <option>600</option>
-                            <option>700</option>
-                            <option>800</option>
-                            <option>900</option>
-                            <option>1000</option>
-                            <option>2000</option>
-                            <option>3000</option>
-                            <option>4000</option>
-                            <option>5000</option>
-                            <option>10000</option>
-                            <option>15000</option>
-                            <option>19500</option>
+                        <select class="select_option">
+                            <option value=100>100</option>
+                            <option value=200>200</option>
+                            <option value=300>300</option>
+                            <option value=400>400</option>
+                            <option value=500>500</option>
+                            <option value=600>600</option>
+                            <option value=700>700</option>
+                            <option value=800>800</option>
+                            <option value=900>900</option>
+                            <option value=1000>1000</option>
+                            <option value=2000>2000</option>
+                            <option value=3000>3000</option>
+                            <option value=4000>4000</option>
+                            <option value=5000>5000</option>
+                            <option value=10000>10000</option>
+                            <option value=15000>15000</option>
+                            <option value=19000>19000</option>
                         </select>
                     </div>
                     <div class="queryOn_no neworLarg">
@@ -78,9 +78,9 @@
                     <div class="queryOn_no depthRange">
                         <p>Depth Range : </p>
                         <div class="depthRange">
-                            <input type="text" class="min_magnitude" />
+                            <input type="text" class="min_depth" />
                             <label>>=Depth<=</label>
-                            <input type="text" class="max_magnitude" />                          
+                            <input type="text" class="max_mdepth" />                          
                         </div>
                     </div>                
                     <button id="apply_search">Apply</button>
@@ -88,7 +88,7 @@
             </div>
         </div>
     </div>
-    <div id="popup" title="Property"></div>
+    <div id="popup"></div>
     <script src="./js/earthquake_data.js"></script>
 </body>
 </html>
