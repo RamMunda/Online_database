@@ -19,13 +19,15 @@ var himProv = [5,52,53,220,226,244,934,185,201,202,215,225,228,231,232,246,313,6
 var no_ofFaults = 0;
 var allData = [];
 document.addEventListener('click',function(){
-  $.get('https://geodata-server.herokuapp.com/api/fault_data',function (data,stauts) {
+  if(allData.length==0){
+    $.get('https://geodata-server.herokuapp.com/api/fault_data',function (data,stauts) {
       if(allData.length==0){
         allData.push(JSON.parse(data));
 
       }
 
   })
+  }
 })
 var input = document.querySelector(".fault_name");
 input.addEventListener("keypress", function(event) {
