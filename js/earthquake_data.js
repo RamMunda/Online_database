@@ -14,6 +14,16 @@ $(document).ready(function(){
       }
     })    
   }
+  var preloaderElement = document.getElementById('preloader');
+  $('#map').bind('DOMSubtreeModified', function(){
+    if(document.querySelector('.ol-viewport')){
+      console.log('changed');
+      preloaderElement.style.display = "none";
+    }
+    else{
+      preloaderElement.style.display = "block";     
+    }
+  });
   var optionForquery = document.querySelector('.select_option');
   optionForquery.addEventListener('change',function(){
     console.log("it's change");
@@ -23,9 +33,8 @@ $(document).ready(function(){
     PopupElement = document.createElement('div');
     PopupElement.setAttribute('id','popup');
     document.querySelector('.map_data_container').append(PopupElement);
-    setTimeout(()=>{
       Reploting(optionForquery.value);
-    },2000);
+
   })
 
   var ApplySearch = document.getElementById('apply_search');
@@ -41,10 +50,8 @@ $(document).ready(function(){
     PopupElement = document.createElement('div');
     PopupElement.setAttribute('id','popup');
     document.querySelector('.map_data_container').append(PopupElement);
-    setTimeout(()=>{
-      DepthAndMagnitudeRangeReploiting(minDepth,maxDepth,minMagnitude,maxMagnitude);
 
-    },2000);
+    DepthAndMagnitudeRangeReploiting(minDepth,maxDepth,minMagnitude,maxMagnitude);
   })
 
   function Reploting(maxNumdata){
@@ -139,7 +146,7 @@ $(document).ready(function(){
 
   function DepthAndMagnitudeRangeReploiting(minDepth, maxDepth, minMagnitude, maxMagnitude){
      GenralFeature = [];
-     var j,l=19000;
+     var j,l=document.querySelector('.select_option').value;
      console.log(typeof(minDepth));
      console.log(typeof(earthquake_data[0].data[200].Depth));
 
@@ -232,47 +239,3 @@ $(document).ready(function(){
      });
    }
 });
-
-
-// var map = new ol.Map({
-//     target: 'map',
-//     layers: [
-//       new ol.layer.Tile({
-//         source: new ol.source.OSM()
-//       })
-//     ],
-//     view: new ol.View({
-//       center: ol.proj.fromLonLat([-110, -5.36]),
-//       zoom: 2
-//     })
-//   });
-
-
-//   var london = new ol.Feature({
-//     geometry: new ol.geom.Point(ol.proj.fromLonLat([-0.12755, 51.507222])),
-//   });
-//   london.setStyle(
-//     new ol.style.Style({
-//       image: new ol.style.Icon({
-//         color: 'rgba(255, 0, 0, .5)',
-//         crossOrigin: 'anonymous',
-//         src: 'https://play-lh.googleusercontent.com/tN7pGT9BgM15-NL16AKZmV0-GEn7uL8IAtyANUF0CQzSYpMTJum0j8UHUZ3b003Os79E',
-//         scale: 0.2,
-//       }),
-//     })
-//   );
-//   var vectorSource = new ol.source.Vector({
-//     features: [london],
-//   });
-//   var vectorLayer = new ol.layer.Vector({
-//     source: vectorSource,
-//   });
-  
-// new ol.Map({
-//   layers: [vectorLayer],
-//   target: document.getElementById('map'),
-//   view: new ol.View({
-//     center: ol.proj.fromLonLat([2.896372, 44.6024]),
-//     zoom: 3,
-//   }),
-// });

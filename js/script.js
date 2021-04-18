@@ -18,19 +18,17 @@ var jkarray = [225,226,228,229,237,271,280,289,290,291,292,293,294,295,296,298,2
 var himProv = [5,52,53,220,226,244,934,185,201,202,215,225,228,231,232,246,313,697,859,901,928,934,935,936,214,289,689,889,890,891,892,938,939,940,941,162,165,166,167,174,178,188,189,289];
 var no_ofFaults = 0;
 var allData = [];
-document.addEventListener('click',function(){
+$(document).ready(function(){
   if(allData.length==0){
     $.get('https://geodata-server.herokuapp.com/api/fault_data',function (data,stauts) {
       if(allData.length==0){
         allData.push(JSON.parse(data));
-
       }
 
   })
   }
-})
-var input = document.querySelector(".fault_name");
-input.addEventListener("keypress", function(event) {
+  var input = document.querySelector(".fault_name");
+  input.addEventListener("keypress", function(event) {
   if(event.which == 13){
     event.preventDefault();
     var faultName = input.value;
@@ -40,7 +38,6 @@ input.addEventListener("keypress", function(event) {
     for(rp=0;rp<featureLength;rp++){
       if(allData[0].features[rp].properties.Name.match(regex)){
           no_ofFaults++;
-          console.log(rp);
         var coordinateLength = allData[0].features[rp].geometry.coordinates.length;
         var k,i;
         if(allData[0].features[rp].geometry.coordinates[0].length>2){
@@ -143,26 +140,26 @@ input.addEventListener("keypress", function(event) {
 document.querySelector(".showAllfaults").addEventListener('click',function(){
     setTimeout(()=>{
       var featureLength = allData[0].features.length-1;
-      var k,i;
+      var k,i,innerCoordinateLength,lonlat,location2,linieStyle,linie;
       for(k=0;k<featureLength;k++){
-      var innerCoordinateLength = allData[0].features[k].geometry.coordinates.length-1;
-      for(i=0;i<innerCoordinateLength;i++){
-      var lonlat = ol.proj.fromLonLat([allData[0].features[k].geometry.coordinates[i][0], allData[0].features[k].geometry.coordinates[i][1]]);
-              var location2 = ol.proj.fromLonLat([allData[0].features[k].geometry.coordinates[i+1][0], allData[0].features[k].geometry.coordinates[i+1][1]]);
+        innerCoordinateLength = allData[0].features[k].geometry.coordinates.length-1;
+        for(i=0;i<innerCoordinateLength;i++){
+          lonlat = ol.proj.fromLonLat([allData[0].features[k].geometry.coordinates[i][0], allData[0].features[k].geometry.coordinates[i][1]]);
+          location2 = ol.proj.fromLonLat([allData[0].features[k].geometry.coordinates[i+1][0], allData[0].features[k].geometry.coordinates[i+1][1]]);
 
               //create the line's style
-              var linieStyle = [
+              linieStyle = [
                           // linestring
                           new ol.style.Style({
                             stroke: new ol.style.Stroke({
-                              color: 'red',
+                              color: 'rgba(255,0,0,.7)',
                               width: 2
                             })
                           })
                         ];
 
               //create the line       
-              var linie = new ol.layer.Vector({
+              linie = new ol.layer.Vector({
                       source: new ol.source.Vector({
                       features: [new ol.Feature({
                           geometry: new ol.geom.LineString([lonlat, location2]),
@@ -334,7 +331,6 @@ map.on('click', function(evt){
       function(feature, layer) {
         return feature;
       });
-    console.log(feature);
     if(feature.values_.prop.Id.length>0){
         feature.values_.prop.Id = feature.values_.prop.Id;      
     }
@@ -363,7 +359,7 @@ map.on('click', function(evt){
     placement: 'top',
     animation: false,
     html: true,
-    content:'<p id="fault_id">'+'ID : '+feature.values_.prop.Id +'</p>'+'<p id="fault_name">'+'Name : '+feature.values_.prop.Name+'</p>'+'<p id="falut_type">'+'Type : '+feature.values_.prop.Type + '</p>'
+    content:'<p id="fault_id">'+'ID : '+Number(feature.values_.prop.Id) +'</p>'+'<p id="fault_name">'+'Name : '+feature.values_.prop.Name+'</p>'+'<p id="falut_type">'+'Type : '+feature.values_.prop.Type + '</p>'
         
     });
     $(element).popover('show');
@@ -376,3 +372,5 @@ map.on('click', function(evt){
   document.getElementById('lat').textContent = lonlat[0];
   document.getElementById('long').textContent = lonlat[1];
  });
+});
+
