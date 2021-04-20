@@ -136,18 +136,25 @@ body {
 }
 .map-section {
   display: flex;
-  padding: 10px;
 }
 .map-content {
-  width: 40%;
-  padding: 20px;
+  width: 33%;
+  box-sizing: border-box;
+  padding: 20px 20px 0px 20px;
+  border: 1px solid lightblue;
+  background-color: lightblue;
+  margin: 0px 10px;
+  border-radius: 3px;
 }
 .map-content > form {
   display: flex;
   justify-content: space-between;
 }
 .map-content > form > label {
-  font-size: 20px;
+  font-size: 17px;
+}
+select {
+  outline: none;
 }
 .showAllfaults {
   padding: 8px 20px;
@@ -165,12 +172,13 @@ body {
   background-color: #528b8b;
 }
 .fault_name {
-  margin-left: 100px;
   height: 28px;
+  outline: none;
 }
 #country_name {
-  height: 23px;
   font-size: 14px;
+  height: 25px;
+  width: 135px;
 }
 #province_name {
   height: 23px;
@@ -184,7 +192,7 @@ body {
   margin-top: 20px;
 }
 .map-content > h3 {
-  font-size: 20px;
+  font-size: 17px;
 }
 .geo-char-country,
 .geo-char-province {
@@ -206,8 +214,8 @@ body {
   background-color: orangered;
 }
 .map {
-  width: 60%;
-  height: 400px;
+  width: 69%;
+  height: 450px;
 }
 .searchstate_level {
   display: flex;
@@ -230,9 +238,8 @@ body {
   font-size: 13px;
 }
 #latlong {
-  width: calc(100% - 150px);
+  width: 100%;
   text-align: center;
-  transform: translate(150px, -60px);
   font-size: 12px;
 }
 #lat,
@@ -438,7 +445,7 @@ body {
     transform: translate(-11px, 25px);
   }
   .map-content > form > label {
-    font-size: 16px;
+    font-size: 17px !important;
   }
 }
 @media screen and (max-width: 320px) {

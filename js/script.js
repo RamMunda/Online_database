@@ -109,17 +109,18 @@ $(document).ready(function(){
         }
     }
     }
+    var faultNum = document.querySelector('.fault_num');
+    var faultDesc = document.querySelector('.found_faults');
+    if(no_ofFaults>0){
+      faultDesc.classList.add('importFounfClass');
+  
+    }
+    else{
+      faultDesc.classList.add('importNofoundClass');
+    }
+    faultNum.textContent = no_ofFaults;
   }
-  var faultNum = document.querySelector('.fault_num');
-  var faultDesc = document.querySelector('.found_faults');
-  if(no_ofFaults>0){
-    faultDesc.classList.add('importFounfClass');
 
-  }
-  else{
-    faultDesc.classList.add('importNofoundClass');
-  }
-  faultNum.textContent = no_ofFaults;
   // function scrollWin() {
   //   window.scrollTo(0, 100);
   // }
