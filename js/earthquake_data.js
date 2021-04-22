@@ -33,8 +33,9 @@ $(document).ready(function(){
     PopupElement = document.createElement('div');
     PopupElement.setAttribute('id','popup');
     document.querySelector('.map_data_container').append(PopupElement);
+    setTimeout(()=>{
       Reploting(optionForquery.value);
-
+    },2000);
   })
 
   var ApplySearch = document.getElementById('apply_search');
@@ -50,8 +51,10 @@ $(document).ready(function(){
     PopupElement = document.createElement('div');
     PopupElement.setAttribute('id','popup');
     document.querySelector('.map_data_container').append(PopupElement);
+    setTimeout(()=>{
+      DepthAndMagnitudeRangeReploiting(minDepth,maxDepth,minMagnitude,maxMagnitude);
 
-    DepthAndMagnitudeRangeReploiting(minDepth,maxDepth,minMagnitude,maxMagnitude);
+    },2000);
   })
 
   function Reploting(maxNumdata){
@@ -146,12 +149,12 @@ $(document).ready(function(){
 
   function DepthAndMagnitudeRangeReploiting(minDepth, maxDepth, minMagnitude, maxMagnitude){
      GenralFeature = [];
-     var j,l=document.querySelector('.select_option').value;
+     var j,l=19000;
      console.log(typeof(minDepth));
      console.log(typeof(earthquake_data[0].data[200].Depth));
 
      for(j=0;j<l-1;j++){
-         if(Number(earthquake_data[0].data[j].Depth)>=Number(minDepth) && Number(earthquake_data[0].data[j].Depth)<=Number(maxDepth) && Number(earthquake_data[0].data[j].Magn)>=Number(minMagnitude) && Number(earthquake_data[0].data[j].Magn)<=Number(maxMagnitude)){
+         if(Number(earthquake_data[0].data[j].Depth)>=Number(minDepth) && Number(earthquake_data[0].data[j].Depth)<=Number(maxDepth)){
            console.log("matched");
             point = new ol.geom.Point([earthquake_data[0].data[j].Lon,earthquake_data[0].data[j].Lat]);
           //  if(j>2000-1){
