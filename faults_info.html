@@ -84,9 +84,10 @@
     <div class="map-section" id="map_section">
         <div class="map-content">
           <button class="showAllfaults">Show All Faluts</button>
+          <p class="faultError"></p>
           <form>
             <label for="fault_name" >Fault's Name</label>
-            <input type="text" class="fault_name" />
+            <input type="text" class="fault_name" value="" required/>
           </form>
            <h3 class="geo_char">Geographic Characteristics</h3>
            <div class="geo-char-country">
@@ -139,7 +140,7 @@
         Lat : <p id="lat">NaN</p>,
         Long : <p id="long">NaN</p>
       </div>
-      <div class="found_faults"><p class="fault_num">0</p>fault found</div>
+      <div class="found_faults"><p class="searchfaultname"></p><p class="fault_num">0</p>fault found</div>
       <script src="js/script.js"></script>
 </body>
 </html>

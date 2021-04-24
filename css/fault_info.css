@@ -275,6 +275,13 @@ select {
   text-align: center;
   background-color: greenyellow;
 }
+.searchfaultname {
+  display: inline-block;
+  margin-right: 10px;
+}
+.faultError {
+  color: red;
+}
 @media screen and (max-width: 1024px) {
   .fault-mapping {
     margin-left: 100px;

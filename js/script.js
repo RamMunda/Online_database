@@ -28,13 +28,24 @@ $(document).ready(function(){
   })
   }
   var input = document.querySelector(".fault_name");
+  var error = document.querySelector('.faultError');
   input.addEventListener("keypress", function(event) {
   if(event.which == 13){
     event.preventDefault();
     var faultName = input.value;
+    console.log(faultName);
+    console.log(typeof(faultName));
+    console.log(faultName=="");
+    if(faultName==""){
+      error.textContent= "please fill the required input";
+      return null;
+    }
+    error.textContent= "";
     var regex = new RegExp(faultName,'ig');
     var featureLength = allData[0].features.length-1;
     var rp;
+    no_ofFaults = 0;
+
     for(rp=0;rp<featureLength;rp++){
       if(allData[0].features[rp].properties.Name.match(regex)){
           no_ofFaults++;
@@ -111,13 +122,16 @@ $(document).ready(function(){
     }
     var faultNum = document.querySelector('.fault_num');
     var faultDesc = document.querySelector('.found_faults');
+    var serachfault = document.querySelector('.searchfaultname');
     if(no_ofFaults>0){
+      faultDesc.classList.remove('importNofoundClass');
       faultDesc.classList.add('importFounfClass');
-  
     }
     else{
+      faultDesc.classList.remove('importFounfClass')
       faultDesc.classList.add('importNofoundClass');
     }
+    serachfault.textContent = `(${faultName})`
     faultNum.textContent = no_ofFaults;
   }
 
