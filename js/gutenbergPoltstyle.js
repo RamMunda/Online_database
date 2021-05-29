@@ -11,7 +11,7 @@ $(document).ready(function(){
       earthquakeData.push(JSON.parse(data));
     })
 
-    $.get('../data/geojson/countries.geojson',function (data,stauts) {
+    $.get('/data/geojson/countries.geojson',function (data,stauts) {
       console.log(data.features);
         allContriesCoord.push(data.features);
     });
