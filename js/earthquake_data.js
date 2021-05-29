@@ -229,5 +229,5 @@ $(document).ready(function(){
          map.getViewport().style.cursor = 'inherit';
        }
      });
-   }
+  }
 });
