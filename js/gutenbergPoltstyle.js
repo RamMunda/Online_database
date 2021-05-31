@@ -1,7 +1,7 @@
 console.log(ol);
 var earthquakeData = [],foundSelectedData=[];
 var vectorSource = new ol.source.Vector({
-  url: 'data/geojson/countries.geo.json',
+  url: 'data/geojson/countries.geojson',
   format: new ol.format.GeoJSON(),
 });
 var allContriesCoord = [];
@@ -11,7 +11,7 @@ $(document).ready(function(){
       earthquakeData.push(JSON.parse(data));
     })
 
-    $.get('/data/geojson/countries.geojson',function (data,stauts) {
+    $.get('data/geojson/countries.geojson',function (data,stauts) {
       console.log(data.features);
         allContriesCoord.push(data.features);
     });
