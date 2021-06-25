@@ -5,7 +5,6 @@ var vectorSource = new ol.source.Vector({
   format: new ol.format.GeoJSON(),
 });
 var allContriesCoord = [];
-
 $(document).ready(function(){
     $.get(' https://geodata-server.herokuapp.com/api/earthquakedata',function (data,stauts) {
       earthquakeData.push(JSON.parse(data));
@@ -107,7 +106,7 @@ $(document).ready(function(){
         var d = document.getElementsByTagNameNS('iframe','iframe');
         console.log(d.length);
 
-        makechart();
+        gutenbergPlot();
         return feature.get('name');
         // return feature.get('NAME_1');
       });
@@ -123,103 +122,175 @@ $(document).ready(function(){
         document.getElementById('long').textContent = lonlat[1];
      });
     
-    // Create Polygon
-      var allCountdata;
-
-      console.log(result)
-      function MakeArraydata(data){
-        allCountdata = [];
-          console.log("data",data);
-          var k,count0=0,count1=0,count2=0,count3=0,count4=0,count5=0,count6=0,count7=0,count8=0;
-          for(k=0;k<data.length;k++){
-             if(Number(data[k].Magn)>=0 && Number(data[k].Magn)<1){
-              count0++;
-             }
-             else if(Number(data[k].Magn)>=1 && Number(data[k].Magn)<2){
-                count1++;
-             }
-             else if(Number(data[k].Magn)>=2 && Number(data[k].Magn)<3){
-                count2++;
-             }
-             else if(Number(data[k].Magn)>=3 && Number(data[k].Magn)<4){
-                count3++;
-             }
-             else if(Number(data[k].Magn)>=4 && Number(data[k].Magn)<5){
-                count4++;
-             }
-             else if(Number(data[k].Magn)>=5 && Number(data[k].Magn)<6){
-                count5++;
-             }
-             else if(Number(data[k].Magn)>=6 && Number(data[k].Magn)<7){
-                count6++;
-             }
-             else if(Number(data[k].Magn)>=7 && Number(data[k].Magn)<8){
-              count7++;
-             }
-             else if(Number(data[k].Magn)>=8 && Number(data[k].Magn)<9){
-              count8++;
-             }
-
-          }
-          allCountdata.push(count1);
-          allCountdata.push(count2);
-          allCountdata.push(count3);
-          allCountdata.push(count4);
-          allCountdata.push(count5);
-          allCountdata.push(count6);
-          allCountdata.push(count7);
-          allCountdata.push(count8);
-
-      }
-      function makechart(){
-        var xValues = [0,1,2,3,4,5,6,7,8];
-        var yValues = allCountdata;
-
-        console.log(allCountdata);
-        // generateData("Math.log(number[x]) / Math.log(10)", 0, 8, 0.5);
-        // generateData("Math.log(x)", 0, 8, 0.5);
-
-        
-        new Chart("myChart", {
-          type: "line",
-          yAxes: [{
-            scaleLabel: {
-                display: true,
-                labelString: 'LABEL',
-            },
-            type: 'logarithmic',
-            position: 'left',
-            ticks: {
-                 min: 0.1, //minimum tick
-                 max: 1000, //maximum tick
-            },
-        }],
-          data: {
-            labels: xValues,
-            datasets: [{
-              fill: false,
-              pointRadius: 1,
-              borderColor: "rgba(0,0,255,0.5)",
-              data: yValues
-            }]
-          },    
-          options: {
-            legend: {display: false},
-            title: {
-              display: true,
-              text: "Log N(m) = a - bm",
-              fontSize: 14
+    // Making data
+    var allCountdata;
+    var xAxisData;
+    var RGlinePoints;
+    var ScatterdataPoint;
+    var lr = {} ;
+    function MakeArraydata(data){
+      allCountdata = [];
+      xAxisData = [];
+      RGlinePoints = [];
+      ScatterdataPoint = [];
+        var k,count1=0,count2=0,count3=0,count4=0,count5=0,count6=0,count7=0;
+        for(k=0;k<data.length;k++){
+          //  if(Number(data[k].Magn)>=1 && Number(data[k].Magn)<2){
+          //     count1++;
+          //  }
+          //  else if(Number(data[k].Magn)>=2 && Number(data[k].Magn)<3){
+          //     count2++;
+          //  }
+          //  else if(Number(data[k].Magn)>=3 && Number(data[k].Magn)<4){
+          //     count3++;
+          //  }
+          //  else if(Number(data[k].Magn)>=4 && Number(data[k].Magn)<5){
+          //     count4++;
+          //  }
+          //  else if(Number(data[k].Magn)>=5 && Number(data[k].Magn)<6){
+          //     count5++;
+          //  }
+          //  else if(Number(data[k].Magn)>=6 && Number(data[k].Magn)<7){
+          //     count6++;
+          //  }
+          //  else if(Number(data[k].Magn)>=7 && Number(data[k].Magn)<8){
+          //   count7++;
+          //  }
+           if(Number(data[k].Magn)>=1){
+            count1++;
             }
-          }
-        });
+            if(Number(data[k].Magn)>=2){
+                count2++;
+            }
+            if(Number(data[k].Magn)>=3){
+                count3++;
+            }
+            if(Number(data[k].Magn)>=4){
+                count4++;
+            }
+            if(Number(data[k].Magn)>=5){
+                count5++;
+            }
+            if(Number(data[k].Magn)>=6){
+                count6++;
+            }
+            if(Number(data[k].Magn)>=7){
+              count7++;
+            }
 
-        // function generateData(value, i1, i2, step = 1) {
-        //   for (let x = i1; x <= i2; x += step) {
-        //     yValues.push(eval(value));
-        //     xValues.push(x);
-        //   }
-        // }
+        }
+        console.log(count1,count2,count3,count4,count5,count6,count7);
+        if(count1!=0){
+          allCountdata.push(Math.log(count1));
+          xAxisData.push(1);
+        }
+        if(count2!=0){
+          allCountdata.push(Math.log(count2));
+          xAxisData.push(2);
+        }
+        if(count3!=0){
+          allCountdata.push(Math.log(count3));
+          xAxisData.push(3);
+        }
+        if(count4!=0){
+          allCountdata.push(Math.log(count4));
+          xAxisData.push(4);
+        }
+        if(count5!=0){
+          allCountdata.push(Math.log(count5));
+          xAxisData.push(5);
+        }
+        if(count6!=0){
+          allCountdata.push(Math.log(count6));
+          xAxisData.push(6);
+        }
+        if(count7!=0){
+          allCountdata.push(Math.log(count7));
+          xAxisData.push(7);
+        }
+        console.log(allCountdata);
+        console.log(xAxisData);
+        var known_y = allCountdata;
+        var known_x = xAxisData;
+        lr = [];
+        var lr = linearRegression(known_y, known_x);
+        for(con=0;con<xAxisData.length;con++){
+          RGlinePoints.push([xAxisData[con],(((lr.slope)*xAxisData[con])+lr.intercept)]);
+        }
+        for(Rgp=0;Rgp<xAxisData.length;Rgp++){
+          ScatterdataPoint.push([xAxisData[Rgp],allCountdata[Rgp]]);
+        }
+        console.log(RGlinePoints);
+        console.log(ScatterdataPoint);
+        console.log(lr);
+
+    }
+      function gutenbergPlot(){
+        console.log(lr);
+        console.log(lr);
+       
+        Highcharts.chart('container', {
+          title: {
+            text: 'Scatter plot with regression line'
+          },
+          xAxis: {
+            min: 0,
+            max: 7
+          },
+          yAxis: {
+            min: 0
+          },
+          series: [{
+            type: 'line',
+            name: 'Magnitude',
+            data: RGlinePoints,
+            marker: {
+              enabled: false
+            },
+            states: {
+              hover: {
+                lineWidth: 0
+              }
+            },
+            enableMouseTracking: false
+          }, {
+            type: 'scatter',
+            name: 'Observations',
+            data: ScatterdataPoint,
+            marker: {
+              radius: 4
+            }
+          }]
+        });
       }
+      console.log(earthquakeData);
+      function linearRegression(y,x){
+        var n = y.length;
+        var sum_x = 0;
+        var sum_y = 0;
+        var sum_xy = 0;
+        var sum_xx = 0;
+        var sum_yy = 0;
+    
+        for (var i = 0; i < y.length; i++) {
+    
+            sum_x += x[i];
+            sum_y += y[i];
+            sum_xy += (x[i]*y[i]);
+            sum_xx += (x[i]*x[i]);
+            sum_yy += (y[i]*y[i]);
+        } 
+    
+        lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n*sum_xx - sum_x * sum_x);
+        lr['intercept'] = (sum_y - lr.slope * sum_x)/n;
+        lr['r2'] = Math.pow((n*sum_xy - sum_x*sum_y)/Math.sqrt((n*sum_xx-sum_x*sum_x)*(n*sum_yy-sum_y*sum_y)),2);
+
+        document.querySelector('.avalue').textContent = lr['intercept'];
+        document.querySelector('.bvalue').textContent = -(lr['slope']);
+
+    
+        return lr;
+    }
       
 });
 

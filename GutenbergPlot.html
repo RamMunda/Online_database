@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geological and Geophysical data</title>
-    <link rel="stylesheet" href="css/gutenbergPoltstyle.css" />
-    <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gutenberg–Richter Plot</title>
+  <link rel="stylesheet" href="css/gutenbergPoltstyle.css" />
+  <link rel="shortcut icon" href="#">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
     <script>
         $(document).ready(function(){
           var i = 0;
@@ -64,7 +69,7 @@
     <div class="menuBar_wrapper">
       <div class="menuBar">
         <ul>
-          <li><a href="">Show Map</a></li>
+          <li><a href="index.html">Show Map</a></li>
           <li><a href="faults_info.html">Search Faults</a></li>
           <li><a href="earthquake-browser.html">Search Earthquakes location</a></li>
           <li><a href="">FeedBack</a></li>
@@ -82,7 +87,23 @@
     <div id="popup" title="Property"></div>
     <div class="found_faults"><p class="fault_num">0</p>fault found</div>
     <div id="infomation"><span class="countryName">Selectd Country</span><span id="info"></span></div>
-    <canvas id="myChart" style="width:100%;max-width:600px;height: 300px;"></canvas>
+    <!-- <canvas id="myChart" style="width:100%;max-width:600px;height: 300px;"></canvas> -->
+
+    <figure class="highcharts-figure">
+      <div id="container"></div>
+      <p class="highcharts-description">
+        Chart showing how a line series can be used to show a computed
+        regression line for a dataset. The source data for the regression line
+        is visualized as a scatter series.
+      </p>
+    </figure>
+
+    <div class="guten_ritcher_constantvalues">
+      <span>a value :<span class="avalue"></span>
+      <span>b value :<span class="bvalue"></span>
+
+    </div>
+
     <script src="js/gutenbergPoltstyle.js"></script>
 
 </body>

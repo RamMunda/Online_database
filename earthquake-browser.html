@@ -13,7 +13,38 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
 
-    
+    <style type="text/css">
+        .neworLarg{
+            display: none;
+        }
+        .menuBar_wrapper {
+            display: inline-block;
+            width: 100%;
+        }
+        .menuBar {
+        display: flex;
+        width: 80%;
+        margin: 0 auto;
+        }
+        .menuBar > ul {
+        align-items: center;
+        list-style: none;
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        background-color: aliceblue;
+        margin: 10px 0px 50px 0px;
+        list-style: none;
+        justify-content: space-around;
+        }
+        .menuBar > ul > li {
+        margin: 10px;
+        }
+        #preloader{
+            top:60%;
+            
+        }
+</style>
 </head>
 <body>
     <div class="heading">
@@ -26,6 +57,18 @@
         <div class="toggle-button">
             <i class="fas fa-bars"></i>
         </div>
+    </div>
+     <div class="menuBar_wrapper">
+      <div class="menuBar">
+        <ul>
+          <li><a href="index.html">Show Map</a></li>
+          <li><a href="faults_info.html">Search Faults</a></li>
+          <li><a href="earthquake-browser.html">Search Earthquakes location</a></li>
+          <li><a href="GutenbergPlot.html"> Gutenberg–Richter Plot</a></li>
+          <li><a href="">FeedBack</a></li>
+          <li><a href="">About</a></li>
+        </ul>
+      </div>
     </div>
     <div class="map_data_container">
         <div id="map" class="map">
@@ -58,6 +101,11 @@
                             <option value=15000>15000</option>
                             <option value=19000>19000</option>
                         </select>
+                        <select class="latest_selection">
+                            <option value=1>Latest</option>
+                            <option value=2>Oldest</option>
+                        </select>
+
                     </div>
                     <div class="queryOn_no neworLarg">
                         <p>Select earthquakes by: </p>
@@ -68,8 +116,8 @@
                     </div>
                     <div class="queryOn_no magRange">
                         <p>Magnitude Range : </p>
-                       <input type="checkbox" id="all" />
-                       <label for="all">All</label>
+                       <!-- <input type="checkbox" id="all" />
+                       <label for="all">All</label> -->
                        <div class="magnitude-field">
                            <input type="text" class="min_magnitude" />
                            <label>>=Magnitude<=</label>

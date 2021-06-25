@@ -10,7 +10,7 @@ $(document).ready(function(){
     $.get(' https://geodata-server.herokuapp.com/api/isc-data',function (data,stauts) {
       if(earthquake_data.length==0){
         earthquake_data.push(JSON.parse(data));
-        Reploting(1000);
+        Reploting(100);
       }
     })    
   }
@@ -25,45 +25,45 @@ $(document).ready(function(){
     }
   });
   var optionForquery = document.querySelector('.select_option');
-  optionForquery.addEventListener('change',function(){
-    console.log("it's change");
-    console.log(optionForquery.value);
-    var RemovableElement = document.querySelector('.ol-viewport');
-    RemovableElement.remove();
-    PopupElement = document.createElement('div');
-    PopupElement.setAttribute('id','popup');
-    document.querySelector('.map_data_container').append(PopupElement);
-      Reploting(optionForquery.value);
-  })
+  // selection change disable
+  // optionForquery.addEventListener('change',function(){
+  //   console.log("it's change");
+  //   console.log(optionForquery.value);
+  //   var RemovableElement = document.querySelector('.ol-viewport');
+  //   RemovableElement.remove();
+  //   PopupElement = document.createElement('div');
+  //   PopupElement.setAttribute('id','popup');
+  //   document.querySelector('.map_data_container').append(PopupElement);
+  //     Reploting(optionForquery.value);
+  // })
+
+    // selection change disable
 
   var ApplySearch = document.getElementById('apply_search');
   ApplySearch.addEventListener('click',function(){
 
+    orderCheck = document.querySelector('.latest_selection').value;
     minMagnitude = document.querySelector('.min_magnitude').value;
     maxMagnitude = document.querySelector('.max_magnitude').value;
     
     minDepth = document.querySelector('.min_depth').value;
     maxDepth = document.querySelector('.max_mdepth').value;
+
+    if(!minMagnitude || !maxMagnitude || !minDepth || !maxDepth){
+      alert('Please fill all the fields');
+      return false;
+    }
+
     var RemovableElement = document.querySelector('.ol-viewport');
     RemovableElement.remove();
     PopupElement = document.createElement('div');
     PopupElement.setAttribute('id','popup');
     document.querySelector('.map_data_container').append(PopupElement);
-      DepthAndMagnitudeRangeReploiting(minDepth,maxDepth,minMagnitude,maxMagnitude);
+      DepthAndMagnitudeRangeReploiting(minDepth,maxDepth,minMagnitude,maxMagnitude,orderCheck);
   })
 
-  function Reploting(maxNumdata){
-   GenralFeature = [];
-   console.log(maxNumdata)
-    var j,l=maxNumdata;
-    for(j=0;j<l-1;j++){
-        
-         point = new ol.geom.Point([earthquake_data[0].data[j].Lon,earthquake_data[0].data[j].Lat]);
-         GenralFeature.push(new ol.Feature(point))
-    }
-    ol.proj.useGeographic();
-    var place = [78, 27];      
-    var point = new ol.geom.Point(place);
+
+  function mapGenerate(place,GenralFeature){
     var map = new ol.Map({
       target: 'map',
       view: new ol.View({
@@ -87,6 +87,23 @@ $(document).ready(function(){
           }),
         }) ],
     });
+    return map;
+  }
+
+  function Reploting(maxNumdata){
+   GenralFeature = [];
+   console.log(maxNumdata)
+    var j,l=maxNumdata;
+    for(j=0;j<l-1;j++){
+        
+         point = new ol.geom.Point([earthquake_data[0].data[j].Lon,earthquake_data[0].data[j].Lat]);
+         GenralFeature.push(new ol.Feature(point))
+    }
+    ol.proj.useGeographic();
+    var place = [78, 27];      
+    var point = new ol.geom.Point(place);
+
+   var map =  mapGenerate(place,GenralFeature);
 
     var element = document.getElementById('popup');
 
@@ -139,95 +156,128 @@ $(document).ready(function(){
   }
 
 
-  function DepthAndMagnitudeRangeReploiting(minDepth, maxDepth, minMagnitude, maxMagnitude){
+  function DepthAndMagnitudeRangeReploiting(minDepth, maxDepth, minMagnitude, maxMagnitude,orderCheck=1){
      GenralFeature = [];
      var j,l=document.querySelector('.select_option').value;
      console.log(typeof(minDepth));
      console.log(typeof(earthquake_data[0].data[200].Depth));
+     console.log('ordercheck: ',orderCheck);
+     var counter = 0;
+     if(orderCheck == 1){
+      console.log('latest');
+      for(j=0;j<earthquake_data[0].data.length;j++){
+        if(Number(earthquake_data[0].data[j].Depth)>=Number(minDepth) && Number(earthquake_data[0].data[j].Depth)<=Number(maxDepth) && Number(earthquake_data[0].data[j].Magn)>=Number(minMagnitude) && Number(earthquake_data[0].data[j].Magn)<=Number(maxMagnitude)){
+          console.log("matched");
+              point = new ol.geom.Point([earthquake_data[0].data[j].Lon,earthquake_data[0].data[j].Lat]);
+              GenralFeature.push(new ol.Feature(point));
+              if(counter == l-1){
+                console.log('yess latest');
+                break;
+              }
+              counter++;
+           }
 
-     for(j=0;j<l-1;j++){
-      if(Number(earthquake_data[0].data[j].Depth)>=Number(minDepth) && Number(earthquake_data[0].data[j].Depth)<=Number(maxDepth) && Number(earthquake_data[0].data[j].Magn)>=Number(minMagnitude) && Number(earthquake_data[0].data[j].Magn)<=Number(maxMagnitude)){
-        console.log("matched");
-            point = new ol.geom.Point([earthquake_data[0].data[j].Lon,earthquake_data[0].data[j].Lat]);
-            GenralFeature.push(new ol.Feature(point));
-         }
-
+       }
+       console.log('latest: ', GenralFeature);
      }
+     else{
+      
+      for(j=earthquake_data[0].data.length-1;j>=0;j--){
+    
+        if(Number(earthquake_data[0].data[j].Depth)>=Number(minDepth) && Number(earthquake_data[0].data[j].Depth)<=Number(maxDepth) && Number(earthquake_data[0].data[j].Magn)>=Number(minMagnitude) && Number(earthquake_data[0].data[j].Magn)<=Number(maxMagnitude)){
+          console.log("matched");
+              point = new ol.geom.Point([earthquake_data[0].data[j].Lon,earthquake_data[0].data[j].Lat]);
+              GenralFeature.push(new ol.Feature(point));
+              if(counter == l - 1){
+                console.log('yess latest');
+                break;
+              }
+              counter++;
+           }
+
+       }
+       console.log('oldest: ', GenralFeature);
+     }
+     
      console.log("GenralFeature",GenralFeature);
      ol.proj.useGeographic();
      var place = [78, 27];      
      var point = new ol.geom.Point(place);
-     var map = new ol.Map({
-       target: 'map',
-       view: new ol.View({
-         center: place,
-         zoom: 5,
-       }),
-       layers: [
-         new ol.layer.Tile({
-           source: new ol.source.OSM(),
-         }),
-         new ol.layer.Vector({
-           source: new ol.source.Vector({
-             features: GenralFeature,
-           }),
-           style: new ol.style.Style({
-             image: new ol.style.Circle({
-               radius: 5,
-               fill: new ol.style.Fill({color: 'rgba(154, 18, 179, 1)'}),
-               stroke: new ol.style.Stroke({color: 'rgba(0,0,0,1)'})
-             }),
-           }),
-         }) ],
-     });
+     var map = mapGenerate(place,GenralFeature);
  
      var element = document.getElementById('popup');
  
      var popup = new ol.Overlay({
-       element: element,
-       positioning: 'bottom-center',
-       stopEvent: false,
-       offset: [0, -10],
-     });
+      element: element,
+      positioning: 'bottom-center',
+      stopEvent: false,
+      offset: [0, -10],
+    });
      map.addOverlay(popup);
  
-     function formatCoordinate(coordinate) {
+     function formatCoordinate(coordinate,orderCheck=1) {
        console.log(coordinate);
        var k;
-       for(k=0;k<l-1;k++){
-         if(earthquake_data[0].data[k].Lon==coordinate[0] && earthquake_data[0].data[k].Lat==coordinate[1]){
-           console.log(earthquake_data[0].data[k]);
-           return ("\n  <table>\n   <tr><th>ISC event</th> <th>Agency</th> <th>Original Time</th> <th>Depth</th> <th>Lat</th> <th>Long</th> <th>Magn</th> <th>N</th></tr> <tr> <td>"+ earthquake_data[0].data[k].ISC_event+"</td> <td>"+ earthquake_data[0].data[k].Agency +"</td>  <td>"+ earthquake_data[0].data[k].Origin_Time +"</td>  <td>"+ earthquake_data[0].data[k].Depth +"</td>   <td>"+ earthquake_data[0].data[k].Lat +"</td>  <td>"+ earthquake_data[0].data[k].Lon +"</td>   <td>"+ earthquake_data[0].data[k].Magn +"</td>  <td>"+ Number(earthquake_data[0].data[k].N)  +"</td> </tr>   </table>");
- 
+       if(orderCheck == 1){
+          console.log('latestOrder');
+          for(k=0;k<earthquake_data[0].data.length;k++){
+           if(earthquake_data[0].data[k].Lon==coordinate[0] && earthquake_data[0].data[k].Lat==coordinate[1]){
+             console.log(earthquake_data[0].data[k]);
+             return ("\n  <table>\n   <tr><th>ISC event</th> <th>Agency</th> <th>Original Time</th> <th>Depth</th> <th>Lat</th> <th>Long</th> <th>Magn</th> <th>N</th></tr> <tr> <td>"+ earthquake_data[0].data[k].ISC_event+"</td> <td>"+ earthquake_data[0].data[k].Agency +"</td>  <td>"+ earthquake_data[0].data[k].Origin_Time +"</td>  <td>"+ earthquake_data[0].data[k].Depth +"</td>   <td>"+ earthquake_data[0].data[k].Lat +"</td>  <td>"+ earthquake_data[0].data[k].Lon +"</td>   <td>"+ earthquake_data[0].data[k].Magn +"</td>  <td>"+ Number(earthquake_data[0].data[k].N)  +"</td> </tr>   </table>");
+
+           }
          }
        }
+       else{
+        console.log('oldestOrder');
+        for(k=earthquake_data[0].data.length-1;k>=0;k--){
+          console.log('kdata: ',earthquake_data[0].data[k]);
+         if(earthquake_data[0].data[k].Lon==coordinate[0] && earthquake_data[0].data[k].Lat==coordinate[1]){
+            console.log('if oldestOrder');
+           console.log(earthquake_data[0].data[k]);
+           return ("\n  <table>\n   <tr><th>ISC event</th> <th>Agency</th> <th>Original Time</th> <th>Depth</th> <th>Lat</th> <th>Long</th> <th>Magn</th> <th>N</th></tr> <tr> <td>"+ earthquake_data[0].data[k].ISC_event+"</td> <td>"+ earthquake_data[0].data[k].Agency +"</td>  <td>"+ earthquake_data[0].data[k].Origin_Time +"</td>  <td>"+ earthquake_data[0].data[k].Depth +"</td>   <td>"+ earthquake_data[0].data[k].Lat +"</td>  <td>"+ earthquake_data[0].data[k].Lon +"</td>   <td>"+ earthquake_data[0].data[k].Magn +"</td>  <td>"+ Number(earthquake_data[0].data[k].N)  +"</td> </tr>   </table>");
+
+         }
+       }
+       }
+       
+
      }
+
      map.on('click', function (event) {
-       var feature = map.getFeaturesAtPixel(event.pixel)[0];
-       console.log(map.getFeaturesAtPixel(event.pixel));
-       if (feature) {
-         var coordinate = feature.getGeometry().getCoordinates();
-         console.log("popup",popup);
-         popup.setPosition(coordinate);
-         $(element).popover({
-           container: element.parentElement,
-           html: true,
-           sanitize: false,
-           content: formatCoordinate(coordinate),
-           placement: 'top',
-         });
-         $(element).popover('show');
-       } else {
-         $(element).popover('dispose');
-       }
-     });
- 
-     map.on('pointermove', function (event) {
-       if (map.hasFeatureAtPixel(event.pixel)) {
-         map.getViewport().style.cursor = 'pointer';
-       } else {
-         map.getViewport().style.cursor = 'inherit';
-       }
-     });
+      var feature = map.getFeaturesAtPixel(event.pixel)[0];
+      var ordercheck = document.querySelector('.latest_selection').value;
+      console.log(map.getFeaturesAtPixel(event.pixel));
+      if (feature) {
+        var coordinate = feature.getGeometry().getCoordinates();
+        console.log(coordinate);
+        console.log('coor: ', coordinate);
+        console.log("popup",popup);
+        popup.setPosition(coordinate);
+      
+        $(element).popover({
+          container: element.parentElement,
+          html: true,
+          sanitize: false,
+          content: formatCoordinate(coordinate,ordercheck),
+          placement: 'top',
+        });
+        $(element).popover('show');
+      } else {
+        $(element).popover('dispose');
+      }
+    });
+
+    map.on('pointermove', function (event) {
+      if (map.hasFeatureAtPixel(event.pixel)) {
+        map.getViewport().style.cursor = 'pointer';
+      } else {
+        map.getViewport().style.cursor = 'inherit';
+      }
+    });
+
   }
+
+  
+
 });
